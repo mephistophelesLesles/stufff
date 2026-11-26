@@ -51,7 +51,17 @@ kbd{font:600 12px var(--mono);color:var(--mu);border:1px solid var(--ln);border-
 .big{font:700 52px/1.1 var(--mono);text-align:center;color:var(--c);font-variant-numeric:tabular-nums;margin:6px 0}.ctr{text-align:center}
 ul{padding-left:20px;margin:6px 0}li{margin:6px 0}
 .shake{animation:sk .3s}@keyframes sk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-@media(prefers-reduced-motion:reduce){.shake,.cur,body::before,</style></head><body><canvas id="rain" aria-hidden="true"></canvas>
+@media(prefers-reduced-motion:reduce){.shake,.cur,body::before{animation:none!important}}
+.mode{min-height:64px;justify-content:center}.mode b{font-size:19px}
+.rn{display:block;width:100%;height:min(56vh,400px);min-height:300px;border:1px solid var(--ln);border-radius:12px;background:#070c18;touch-action:manipulation;cursor:pointer}
+.hmw{display:flex;align-items:center;gap:8px;margin:6px 0}.hmw>#hf{flex:none;width:min(40vw,170px)}.hmr{flex:1;min-width:0}.hmr .word{font-size:21px;margin:6px 0}
+.hm{width:100%;height:auto;display:block}.hm path,.hm circle{fill:none;stroke-linecap:round;stroke-linejoin:round}.hm .gal path{stroke:var(--mu);stroke-width:4}.hm .fg *{stroke:var(--no);stroke-width:4}.hm .fg .ex{stroke-width:2.5}.hm .nw{stroke-dasharray:1;stroke-dashoffset:0;animation:dr .35s ease-out}@keyframes dr{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.pp{display:flex;gap:5px;margin:10px 0}.pp i{flex:1;height:8px;border-radius:3px;background:var(--p2);border:1px solid var(--ln)}.pp i.d{background:var(--ok);border-color:var(--ok)}.pp i.c{background:var(--c);border-color:var(--c);box-shadow:0 0 10px var(--c)}
+.gl{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.pane{flex-direction:column;justify-content:center;align-items:center;text-align:center;min-height:130px;margin:0;border-radius:14px;font-size:17px;background:linear-gradient(160deg,rgba(62,230,255,.16),rgba(139,123,255,.08));border-color:rgba(62,230,255,.5);box-shadow:inset 0 0 22px rgba(62,230,255,.12)}
+.pane.ok{background:rgba(53,230,160,.18)}.pane.brk{animation:brk .8s .15s forwards}@keyframes brk{20%{transform:translateX(-4px) rotate(-2deg)}40%{transform:translateX(4px) rotate(2deg)}to{transform:translateY(170px) rotate(14deg);opacity:0}}
+@media(prefers-reduced-motion:reduce){.pane.brk{animation:none;opacity:.35}.hm .nw{animation:none}}
+</style></head><body><canvas id="rain" aria-hidden="true"></canvas>
 <header><div class="hi"><b id="logo" tabindex="0">software_quest<i class="cur"></i></b></div></header>
 <main><div id="app"></div></main>
 <script>
@@ -267,7 +277,7 @@ const ch=[["all","All modules"],[5,"M5 Software"],[6,"M6 Databases"],[7,"M7 Netw
 view(`<h1>Modules 5 to 8 exam prep.</h1>
 <div class="stats"><button class="st" id="play"><b>Play</b><span>random game</span></button><button class="st" id="modt"><b>Module</b><span>${flt=="all"?"all modules":"M"+flt+" "+MODS[flt]}</span></button><div class="st"><b data-n="${sv.bs||0}">0</b><span>best streak</span></div></div>
 <div class="chips">${ch.map(c=>`<button data-f="${c[0]}" class="${flt==c[0]?"on":""}">${c[1]}</button>`).join("")}</div>
-<div class="modes">${GAMES.map((x,k)=>`<button class="mode" data-g="${k}" style="--mc:${x[3]}"><b>${x[0]}</b><span>${x[1]}</span></button>`).join("")}</div>`);
+<div class="modes">${GAMES.map((x,k)=>`<button class="mode" data-g="${k}" style="--mc:${x[3]}"><b>${x[0]}</b></button>`).join("")}</div>`);
 app.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{flt=b.dataset.f=="all"?"all":+b.dataset.f;home()});
 app.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>GAMES[b.dataset.g][2]());
 $("#play").onclick=()=>sh(GAMES)[0][2]();
@@ -345,7 +355,7 @@ if(nxt==B.length){$("#a1").onclick=()=>boot(d);$("#a2").onclick=bootMenu}}
 r()}
 
 
-const GAMES=[["Quiz Blitz","10 questions, 3 lives, 15 seconds each.",()=>quiz(),"var(--c)"],["Flashcards","Flip, then mark Got it or Again. Missed cards come back.",()=>cards(),"var(--v)"],["Sort It","Choose a module level, then sort items into categories.",()=>sortHome(),"var(--ok)"],["Order It","Put sequences in order: PC boot, Web publishing, Internet history.",()=>bootMenu(),"#ffc247"],["Match Rush","Pair 5 terms with their definitions, 3 rounds. Fewer mistakes, more stars.",()=>match(),"#ff8a3d"],["Speed True/False","60 seconds. Does this definition belong to this term?",()=>tf(),"var(--no)"],["Decrypt","Guess the hidden term letter by letter before you run out of lives.",()=>decrypt(),"#58a6ff"]];
+const GAMES=[["Code Runner","",()=>runner(),"#b6ff5c"],["Glass Bridge","",()=>bridge(),"#ff4fd8"],["Quiz Blitz","10 questions, 3 lives, 15 seconds each.",()=>quiz(),"var(--c)"],["Flashcards","Flip, then mark Got it or Again. Missed cards come back.",()=>cards(),"var(--v)"],["Sort It","Choose a module level, then sort items into categories.",()=>sortHome(),"var(--ok)"],["Order It","Put sequences in order: PC boot, Web publishing, Internet history.",()=>bootMenu(),"#ffc247"],["Match Rush","Pair 5 terms with their definitions, 3 rounds. Fewer mistakes, more stars.",()=>match(),"#ff8a3d"],["Speed True/False","60 seconds. Does this definition belong to this term?",()=>tf(),"var(--no)"],["Decrypt","Guess the hidden term letter by letter before you run out of lives.",()=>decrypt(),"#58a6ff"]];
 
 function match(){let r=0,bad=0;const t0=Date.now(),R3=3;
 function rd(){if(r>=R3)return mend();const c=sh(pool()).slice(0,5),L=sh(c),R=sh(c);let left=5,a=null;
@@ -371,21 +381,87 @@ kh=e=>{const k=e.key.toLowerCase();if(k=="t"||e.key=="ArrowLeft")an(true);else i
 function fin(){kh=null;const tot=ok+no;sv.best.tf=Math.max(sv.best.tf||0,ok);persist();
 view(`<div class="card ctr"><p class="mu">Time's up</p><div class="big"><span data-n="${ok}">0</span></div><p class="mu">correct · ${tot?Math.round(ok/tot*100):0}% accuracy · best ${sv.best.tf}</p></div><button class="go" id="a1">Play again</button><button id="a2">Back to menu</button>`);$("#a1").onclick=tf;$("#a2").onclick=home;counters()}}
 
-function decrypt(){const ws=sh(pool().filter(d=>d[0].replace(/[^a-z]/gi,"").length>=4&&d[0].length<=26)).slice(0,5);let i=0,sc=0;
-function w(){if(i>=ws.length)return dend();const c=ws[i],W=c[0].toUpperCase(),g=new Set(),L=[...new Set(W.replace(/[^A-Z]/g,""))];let lives=6,done=false;
+function decrypt(){const ws=sh(pool().filter(d=>d[0].replace(/[^a-z]/gi,"").length>=4&&d[0].length<=26)).slice(0,6);let i=0,sc=0,st=0,bst=sv.best.hm||0;
+const FIG=['<circle cx="88" cy="38" r="11" pathLength="1"/>','<path d="M88 49V90" pathLength="1"/>','<path d="M88 58L72 76" pathLength="1"/>','<path d="M88 58L104 76" pathLength="1"/>','<path d="M88 90L74 116" pathLength="1"/>','<path d="M88 90L102 116" pathLength="1"/>'];
+const fig=(n,dead)=>`<svg viewBox="0 0 140 130" class="hm" role="img" aria-label="${n} of 6 wrong guesses"><g class="gal"><path d="M14 122H108M36 122V10H88V27"/></g><g class="fg">${FIG.slice(0,n).map((f,k)=>k==n-1?f.replace("/>",' class="nw"/>'):f).join("")}${dead?'<path d="M82 34l6 6m0-6l-6 6M91 34l6 6m0-6l-6 6" class="ex"/>':""}</g></svg>`;
+function w(){if(i>=ws.length)return dend();const c=ws[i],W=c[0].toUpperCase(),g=new Set(),L=[...new Set(W.replace(/[^A-Z]/g,""))];let wrong=0,done=false,hint=true;
 const show=()=>[...W].map(ch=>/[A-Z]/.test(ch)?(g.has(ch)||done?ch:"_"):ch==" "?"\u00a0\u00a0":ch).join(" ");
-view(`<div class="bar"><span>word <b>${i+1}</b>/${ws.length}</span><span class="lives" id="hl">${"♥".repeat(6)}</span><span>solved <b>${sc}</b></span></div><div class="card q"><p class="mu">Decrypt the term for this definition</p><h3>${c[1]}</h3></div><div class="word" id="wd">${show()}</div><div class="kb">${[..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"].map(k=>`<button data-k="${k}">${k}</button>`).join("")}</div><div id="fb"></div>`);
+view(`<div class="bar"><span>word <b>${i+1}</b>/${ws.length}</span><span>solved <b id="ts">${sc}</b></span><span>streak <b id="tk">${st}</b></span></div>
+<div class="card q"><p class="mu">Save the stick figure. Name the term for this definition.</p><h3>${c[1]}</h3></div>
+<div class="hmw"><div id="hf">${fig(0)}</div><div class="hmr"><div class="mu" id="hw">wrong 0/6</div><div class="word" id="wd">${show()}</div></div></div>
+<div class="kb">${[..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"].map(k=>`<button data-k="${k}">${k}</button>`).join("")}</div><button id="ht" style="justify-content:center">Hint: reveal a letter, costs a body part</button><div id="fb"></div>`);
+const upd=()=>{$("#hf").innerHTML=fig(wrong,wrong>=6);$("#hw").textContent="wrong "+wrong+"/6";$("#wd").textContent=show();$("#tk").textContent=st};
+const finish=win=>{done=true;if(win){sc++;st++;if(st>bst){bst=st;sv.best.hm=st;persist()}}else st=0;$("#ts").textContent=sc;upd();$("#ht").disabled=true;
+$("#fb").innerHTML=`<div class="card ${win?"gd":"bd"}"><b>${win?"Saved.":"Hanged."}</b> ${c[0]}</div><button class="go" id="nx">${i+1<ws.length?"Next word":"Finish"} <kbd>Enter</kbd></button>`;$("#nx").onclick=()=>{i++;w()};$("#nx").focus()};
 const guess=k=>{if(done||g.has(k))return;g.add(k);const b=app.querySelector(`[data-k="${k}"]`);b.disabled=true;
-if(W.includes(k))b.classList.add("ok");else{b.classList.add("no");lives--}
-$("#hl").textContent="♥".repeat(lives)+"♡".repeat(6-lives);
-const win=L.every(x=>g.has(x));
-if(win||lives<=0){done=true;if(win)sc++;$("#fb").innerHTML=`<div class="card ${win?"gd":"bd"}"><b>${win?"Decrypted.":"Access denied."}</b> ${c[0]}</div><button class="go" id="nx">${i+1<ws.length?"Next":"Finish"}</button>`;$("#nx").onclick=()=>{i++;w()};$("#nx").focus()}
-$("#wd").textContent=show()};
+if(W.includes(k))b.classList.add("ok");else{b.classList.add("no");wrong++}
+upd();if(L.every(x=>g.has(x)))finish(true);else if(wrong>=6)finish(false)};
 app.querySelectorAll(".kb button").forEach(b=>b.onclick=()=>guess(b.dataset.k));
-kh=e=>{const k=e.key.toUpperCase();if(/^[A-Z]$/.test(k)&&!e.ctrlKey&&!e.metaKey&&!e.altKey)guess(k)}}
+$("#ht").onclick=()=>{if(done||wrong>=5)return;const r=L.filter(x=>!g.has(x));if(r.length<2)return;const k=sh(r)[0];wrong++;guess(k);if(!done)upd();$("#ht").blur()};
+kh=e=>{if(e.ctrlKey||e.metaKey||e.altKey)return;if(done&&e.key=="Enter"&&document.activeElement.id!="nx"){$("#nx").click();return}const k=e.key.toUpperCase();if(/^[A-Z]$/.test(k))guess(k)}}
 function dend(){const p=sc/ws.length;sv.best.dec=Math.max(sv.best.dec||0,p);persist();
-view(`<div class="card ctr"><p class="mu">Run complete</p><div class="big"><span data-n="${sc}">0</span>/${ws.length}</div><p class="stars" style="font-size:26px">${stars(p)}</p></div><button class="go" id="a1">Play again</button><button id="a2">Back to menu</button>`);$("#a1").onclick=decrypt;$("#a2").onclick=home;counters()}
+view(`<div class="card ctr"><p class="mu">Run complete · best streak ${bst}</p><div class="big"><span data-n="${sc}">0</span>/${ws.length}</div><p class="stars" style="font-size:26px">${stars(p)}</p></div><button class="go" id="a1">Play again</button><button id="a2">Back to menu</button>`);$("#a1").onclick=decrypt;$("#a2").onclick=home;counters()}
 w()}
+
+function runner(){const P=sh(pool().filter(d=>d[0].length<=34));let pi=0,lives=3,score=0,combo=0,ok=0,miss=[],tgt=1,px=1,gate=null,state="wait",wt=.9,tA=7,dash=false,flash=0,gf=0,fbt=0,off=0,last=performance.now(),dpr=Math.min(2,devicePixelRatio||1);
+view(`<div class="bar"><span>score <b id="rs">0</b></span><span class="lives" id="rl">♥♥♥</span><span>combo <b id="rk">0</b></span></div>
+<div class="card q" style="margin:8px 0"><p class="mu" style="margin:0">Run into the lane with the matching term</p><h3 id="rt">Get ready…</h3></div>
+<canvas id="cv" class="rn" aria-label="Three lanes. Use arrow keys or tap a lane."></canvas>
+<div class="row"><button id="dsh" style="justify-content:center"><kbd>Space</kbd>Dash: arrive sooner</button></div><div id="fb" style="min-height:76px"></div>`);
+const cv=$("#cv"),ctx=cv.getContext("2d"),hud=()=>{$("#rs").textContent=score;$("#rk").textContent=combo;$("#rl").textContent="♥".repeat(lives)+"♡".repeat(3-lives)};
+const go=n=>{tgt=Math.max(0,Math.min(2,n))};
+cv.onpointerdown=e=>{const r=cv.getBoundingClientRect();go(Math.floor((e.clientX-r.left)/r.width*3))};
+$("#dsh").onclick=()=>{dash=true};
+kh=e=>{const k=e.key;if(k=="ArrowLeft"||k=="a"||k=="A")go(tgt-1);else if(k=="ArrowRight"||k=="d"||k=="D")go(tgt+1);else if(/^[1-3]$/.test(k))go(+k-1);else if(k==" "||k=="ArrowDown"){e.preventDefault();dash=true}};
+function spawn(){const c=P[pi++%P.length],ds=sh(D.filter(d=>d!==c&&d[2]==c[2])).slice(0,2),o=sh([c,...ds]);gate={c,o,a:o.indexOf(c),t:0};state="run";dash=false;tA=Math.max(3.6,7-ok*.2);$("#rt").textContent=c[1];$("#fb").innerHTML=""}
+function resolve(){const good=tgt==gate.a;state="fb";gate.t=1;gate.pick=tgt;fbt=1.5;
+if(good){ok++;combo++;score+=100+Math.min(combo,10)*10;gf=1;$("#fb").innerHTML=`<div class="card gd"><b>${combo>=3?"Combo x"+combo+".":"Correct."}</b> ${gate.c[0]}</div>`;fbt=.8}
+else{lives--;combo=0;flash=1;miss.push(gate.c);$("#fb").innerHTML=`<div class="card bd"><b>Crash.</b> ${gate.c[0]}: ${gate.c[1]}</div>`}
+hud()}
+function wrapT(t,mw,mx){const ws=t.split(" "),L=[];let l="";for(const s of ws){const n=l?l+" "+s:s;if(ctx.measureText(n).width>mw&&l){L.push(l);l=s}else l=n}if(l)L.push(l);if(L.length>mx){L.length=mx;L[mx-1]=L[mx-1].slice(0,-2)+"…"}return L}
+function draw(){const w=cv.clientWidth,h=cv.clientHeight;if(cv.width!=Math.round(w*dpr)||cv.height!=Math.round(h*dpr)){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr)}
+const lw=w/3,py=h-62;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);ctx.save();if(flash>0)ctx.translate((Math.random()-.5)*flash*12,0);
+for(let i=0;i<3;i++){ctx.fillStyle=i==tgt?"rgba(62,230,255,.12)":"rgba(255,255,255,.02)";ctx.fillRect(i*lw+2,0,lw-4,h)}
+ctx.strokeStyle="rgba(255,255,255,.05)";ctx.lineWidth=1;for(let y=off%44;y<h;y+=44){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
+ctx.strokeStyle="rgba(62,230,255,.4)";ctx.lineWidth=2;ctx.setLineDash([16,18]);ctx.lineDashOffset=-off;for(let i=1;i<3;i++){ctx.beginPath();ctx.moveTo(i*lw,0);ctx.lineTo(i*lw,h);ctx.stroke()}ctx.setLineDash([]);
+if(gate){const gh=Math.min(104,h*.3),cy=-gh/2+(py+gh/2)*gate.t,fs=lw<125?11:13;ctx.font=`600 ${fs}px "Space Grotesk",system-ui,sans-serif`;ctx.textAlign="center";ctx.textBaseline="middle";
+for(let i=0;i<3;i++){const x=i*lw+7,y=cy-gh/2,ww=lw-14;let f="rgba(139,123,255,.2)",s="#8b7bff";
+if(state=="fb"){if(i==gate.a){f="rgba(53,230,160,.3)";s="#35e6a0"}else if(i==gate.pick){f="rgba(255,92,122,.3)";s="#ff5c7a"}else{f="rgba(255,255,255,.04)";s="#2a3a5e"}}
+ctx.fillStyle=f;ctx.strokeStyle=s;ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(x,y,ww,gh,10);ctx.fill();ctx.stroke();
+ctx.fillStyle="#dce8ff";const L=wrapT(gate.o[i][0],ww-14,Math.max(2,Math.floor((gh-12)/(fs+4))));L.forEach((t,k)=>ctx.fillText(t,x+ww/2,cy-(L.length-1)*(fs+4)/2+k*(fs+4),ww-10))}}
+const X=(px+.5)*lw;ctx.fillStyle="#3ee6ff";for(let k=1;k<5;k++){ctx.globalAlpha=.22-k*.04;ctx.fillRect(X-3,py+14+k*9,6,6)}ctx.globalAlpha=1;
+ctx.shadowColor="#3ee6ff";ctx.shadowBlur=20;ctx.beginPath();ctx.moveTo(X,py-20);ctx.lineTo(X+15,py+14);ctx.lineTo(X,py+6);ctx.lineTo(X-15,py+14);ctx.closePath();ctx.fill();ctx.shadowBlur=0;
+ctx.restore();if(flash>0){ctx.fillStyle=`rgba(255,92,122,${flash*.3})`;ctx.fillRect(0,0,w,h)}if(gf>0){ctx.fillStyle=`rgba(53,230,160,${gf*.16})`;ctx.fillRect(0,0,w,h)}}
+function fin(){const rank=ok>=25?"Root access":ok>=15?"Sysadmin":ok>=8?"Power user":"Newbie",nb=score>(sv.best.run||0);if(nb){sv.best.run=score;persist()}
+view(`<div class="card ctr"><p class="mu">${nb?"New best! ":""}Crashed · rank: ${rank}</p><div class="big"><span data-n="${score}">0</span></div><p class="mu">${ok} correct · best ${sv.best.run||0}</p></div>${miss.length?`<div class="card"><b>Review these</b><ul>${miss.map(m=>`<li><b>${m[0]}</b>: ${m[1]}</li>`).join("")}</ul></div>`:""}<button class="go" id="a1">Run again</button><button id="a2">Back to menu</button>`);$("#a1").onclick=runner;$("#a2").onclick=home;counters()}
+function step(now){if(!cv.isConnected)return;const dt=Math.min(.05,(now-last)/1000);last=now;
+off+=dt*(80+(7/tA)*50)*(dash?3:1);px+=(tgt-px)*Math.min(1,dt*14);flash=Math.max(0,flash-dt*2.5);gf=Math.max(0,gf-dt*3);
+if(state=="wait"){wt-=dt;if(wt<=0)spawn()}
+else if(state=="run"){gate.t+=dt*(dash?3.2:1)/tA;if(gate.t>=1)resolve()}
+else if(state=="fb"){fbt-=dt;if(fbt<=0){if(lives<=0)return fin();gate=null;state="wait";wt=.35}}
+draw();requestAnimationFrame(step)}
+hud();requestAnimationFrame(step)}
+
+function bridge(){const N=10,PL=sh(pool());let step=0,lives=3,score=0,streak=0,fell=0,pi=0,miss=[];
+function row(){if(step>=N)return fin(true);if(lives<=0)return fin(false);
+const c=PL[pi++%PL.length],bad=sh(D.filter(d=>d!==c&&d[2]==c[2]))[0],o=sh([c,bad]),a=o.indexOf(c);
+view(`<div class="bar"><span>score <b>${score}</b></span><span class="lives">${"♥".repeat(lives)+"♡".repeat(3-lives)}</span><span>streak <b>${streak}</b></span></div>
+<div class="pp">${Array.from({length:N},(_,k)=>`<i class="${k<step?"d":k==step?"c":""}"></i>`).join("")}</div><div class="tm"><i id="tb"></i></div>
+<div class="card q"><p class="mu">Step ${step+1} of ${N}. One pane is safe, one will shatter.</p><h3>${c[1]}</h3></div>
+<div class="gl">${o.map((x,k)=>`<button class="pane" data-k="${k}"><kbd>${k+1}</kbd>${x[0]}</button>`).join("")}</div><div id="fb"></div>`);
+let done=false;const t0=Date.now(),tb=$("#tb");
+requestAnimationFrame(()=>requestAnimationFrame(()=>{tb.style.transition="width 10s linear";tb.style.width="0"}));
+const pick=k=>{if(done)return;done=true;clearTimeout(T);tb.style.transition="none";tb.style.width=getComputedStyle(tb).width;
+const good=k==a,left=Math.max(0,10-(Date.now()-t0)/1000),ps=app.querySelectorAll(".pane");ps.forEach((p,j)=>{p.disabled=true;if(j==a)p.classList.add("ok")});
+if(good){step++;streak++;score+=100+streak*15+Math.round(left*5);$("#fb").innerHTML=`<div class="card gd"><b>Safe.</b> ${c[0]}</div>`;T=setTimeout(row,650)}
+else{if(k>=0)ps[k].classList.add("no","brk");else ps[1-a].classList.add("brk");lives--;fell++;streak=0;miss.push(c);
+$("#fb").innerHTML=`<div class="card bd"><b>${k<0?"Time's up. The glass gave way.":"Crack."}</b> ${c[0]}: ${c[1]}</div><button class="go" id="nx">${lives>0?"Climb back up":"See result"} <kbd>Enter</kbd></button>`;$("#nx").onclick=row;$("#nx").focus()}};
+app.querySelectorAll(".pane").forEach((b,k)=>b.onclick=()=>pick(k));
+T=setTimeout(()=>pick(-1),10000);
+kh=e=>{if(e.key=="1"||e.key=="ArrowLeft")pick(0);else if(e.key=="2"||e.key=="ArrowRight")pick(1);else if(e.key=="Enter"&&done&&$("#nx")&&document.activeElement.id!="nx")$("#nx").click()}}
+function fin(win){const p=win?[.4,.5,.8,1][lives]:step/N*.5,nb=score>(sv.best.brs||0);sv.best.br=Math.max(sv.best.br||0,p);if(nb)sv.best.brs=score;persist();
+view(`<div class="card ctr"><p class="mu">${win?"You crossed the bridge":"You fell at step "+(step+1)}${nb?" · new best":""}</p><div class="big"><span data-n="${score}">0</span></div><p class="stars" style="font-size:26px">${stars(p)}</p><p class="mu">${fell} fall${fell==1?"":"s"} · best ${sv.best.brs||0}</p></div>${miss.length?`<div class="card"><b>Review these</b><ul>${miss.map(m=>`<li><b>${m[0]}</b>: ${m[1]}</li>`).join("")}</ul></div>`:""}<button class="go" id="a1">Cross again</button><button id="a2">Back to menu</button>`);$("#a1").onclick=bridge;$("#a2").onclick=home;counters()}
+row()}
 
 (function(){if(RM)return;const c=$("#rain"),x=c.getContext("2d");let w,h,y=[];const rs=()=>{w=c.width=innerWidth;h=c.height=innerHeight;y=Array.from({length:Math.ceil(w/22)},()=>Math.random()*h/22)};rs();addEventListener("resize",rs);
 setInterval(()=>{if(document.hidden)return;x.fillStyle="rgba(6,10,19,.14)";x.fillRect(0,0,w,h);x.fillStyle="#3ee6ff";x.font="14px monospace";y.forEach((v,i)=>{x.fillText(Math.random()<.5?0:1,i*22,v*22);y[i]=v*22>h&&Math.random()>.975?0:v+1})},70)})();
