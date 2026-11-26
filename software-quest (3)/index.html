@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#060a13">
+<title>Software Quest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060a13;--p:#0d1424;--p2:#131d33;--ln:#1f2e4d;--tx:#dce8ff;--mu:#7f93b8;--c:#3ee6ff;--v:#8b7bff;--xp:#ffc247;--ok:#35e6a0;--no:#ff5c7a;--mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--sans:"Space Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 var(--sans);min-height:100vh}
+#rain{position:fixed;inset:0;width:100%;height:100%;opacity:.16;z-index:0;pointer-events:none}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(62,230,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(62,230,255,.07) 1px,transparent 1px);background-size:44px 44px;animation:drift 8s linear infinite;-webkit-mask-image:radial-gradient(ellipse at 50% 0,#000,transparent 75%);mask-image:radial-gradient(ellipse at 50% 0,#000,transparent 75%)}
+@keyframes drift{to{background-position:44px 44px}}
+header,main{position:relative;z-index:1}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(6,10,19,.85);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--ln)}
+.hi{max-width:680px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px}
+#logo{font:700 18px var(--mono);color:var(--c);cursor:pointer;margin-right:auto}
+.cur{display:inline-block;width:9px;height:17px;background:var(--c);vertical-align:-3px;margin-left:3px;animation:bl 1s steps(2) infinite}
+@keyframes bl{50%{opacity:0}}
+main{max-width:680px;margin:0 auto;padding:6px 16px 40px}
+h1{font:700 34px/1.1 var(--sans);letter-spacing:-.02em;margin:18px 0 6px}h2{font:700 22px/1.25 var(--sans);margin:6px 0}h3{font:500 19px/1.4 var(--sans);margin:6px 0}
+p{margin:6px 0}.mu{color:var(--mu);font-size:14px}
+button.st{flex-direction:column;align-items:flex-start;gap:0;margin:0;width:auto}.st b{font-size:24px!important}.mg{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mt{font-size:14px;font-weight:500;padding:11px 10px}.mt.sel{border-color:var(--c);background:rgba(62,230,255,.1)}.word{font:700 24px/1.4 var(--mono);text-align:center;margin:14px 0;word-break:break-word;color:var(--c)}.kb{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.kb button{width:42px;margin:0;padding:9px 0;justify-content:center;font:600 15px var(--mono)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+.st{background:var(--p);border:1px solid var(--ln);border-radius:10px;padding:10px 12px}.st b{display:block;font:700 28px var(--mono);color:var(--c);font-variant-numeric:tabular-nums}.st span{font-size:13px;color:var(--mu)}
+.card{background:var(--p);border:1px solid var(--ln);border-radius:12px;padding:16px;margin:10px 0}.card.gd{border-color:var(--ok)}.card.bd{border-color:var(--no)}.q{border-left:3px solid var(--c)}
+button{font:600 16px var(--sans);color:var(--tx);background:var(--p);border:1px solid var(--ln);border-radius:10px;padding:13px 14px;width:100%;margin:6px 0;text-align:left;cursor:pointer;display:flex;gap:10px;align-items:center;transition:border-color .15s,box-shadow .15s,transform .1s}
+button:hover:not(:disabled){border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 0 18px rgba(62,230,255,.18)}
+button:active:not(:disabled){transform:scale(.99)}
+button:focus-visible,.fc:focus-visible{outline:2px solid var(--xp);outline-offset:2px}
+button.go{background:linear-gradient(135deg,var(--c),#58a6ff);color:#04121c;border-color:transparent;justify-content:center}
+button.ok{background:rgba(53,230,160,.12);border-color:var(--ok);box-shadow:0 0 16px rgba(53,230,160,.25)}
+button.no{background:rgba(255,92,122,.12);border-color:var(--no)}
+button:disabled{cursor:default}.opt:disabled:not(.ok):not(.no){opacity:.45}
+kbd{font:600 12px var(--mono);color:var(--mu);border:1px solid var(--ln);border-radius:5px;padding:1px 6px;flex:none}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.chips button{width:auto;margin:0;padding:7px 13px;border-radius:99px;font-size:14px}
+.chips button.on{border-color:var(--c);color:var(--c);background:rgba(62,230,255,.08)}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:520px){.modes{grid-template-columns:1fr}}
+.mode{flex-direction:column;align-items:flex-start;gap:3px;margin:0;border-left:3px solid var(--mc,var(--c));padding:15px}.mode b{font-size:18px}.mode span{font-weight:400;font-size:14px;color:var(--mu)}
+.mod{padding:14px}.mod>span:nth-child(2){display:flex;flex-direction:column}.mn{font:700 20px var(--mono);color:var(--c);border:1px solid var(--ln);border-radius:8px;padding:6px 10px;background:var(--p2)}
+.stars{margin-left:auto;color:var(--xp);letter-spacing:2px;white-space:nowrap}
+.bar{display:flex;justify-content:space-between;gap:8px;font:600 14px var(--mono);color:var(--mu);margin:14px 0 8px}.bar b{color:var(--tx)}.lives{color:var(--no);letter-spacing:2px}
+.tm{height:5px;background:var(--p2);border-radius:9px;overflow:hidden}.tm i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--c),var(--v));transition:width .4s}
+.tag{color:var(--v);font:600 12px var(--mono)}
+.fc{perspective:900px;height:210px;margin:12px 0;cursor:pointer;border-radius:14px}.fc .in{position:relative;height:100%;transition:transform .5s;transform-style:preserve-3d}.fc.fp .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;background:var(--p);border:1px solid var(--ln);border-radius:14px;padding:18px;display:flex;flex-direction:column;justify-content:center;text-align:center}.back{transform:rotateY(180deg);border-color:var(--c)}
+.row{display:flex;gap:10px}.row button{justify-content:center}
+.big{font:700 52px/1.1 var(--mono);text-align:center;color:var(--c);font-variant-numeric:tabular-nums;margin:6px 0}.ctr{text-align:center}
+ul{padding-left:20px;margin:6px 0}li{margin:6px 0}
+.shake{animation:sk .3s}@keyframes sk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media(prefers-reduced-motion:reduce){.shake,.cur,body::before,</style></head><body><canvas id="rain" aria-hidden="true"></canvas>
+<header><div class="hi"><b id="logo" tabindex="0">software_quest<i class="cur"></i></b></div></header>
+<main><div id="app"></div></main>
+<script>
+// term, definition, group (A=application, O=OS/system, U=utilities)
+const D=[
+["Application software","Programs designed to make users more productive and/or assist with personal tasks","A"],
+["Business software","Application software that assists people while performing business activities","A"],
+["Word processing software","Lets users create and manipulate documents","A"],
+["Clip art","A collection of electronic drawings, photos, and other images","A"],
+["Spreadsheet software","Organizes data in rows and columns and performs calculations","A"],
+["Function (spreadsheet)","A predefined formula that performs common calculations","A"],
+["Charting","Depicts data in a spreadsheet in graphical form","A"],
+["Database","A collection of data organized so it can be accessed, retrieved, and used","A"],
+["Presentation software","Creates visual aids to communicate ideas and messages to a group","A"],
+["Note taking software","Lets you enter typed text, handwriting, drawings, or sketches anywhere on a page","A"],
+["Software suite","A collection of individual programs available together as a unit","A"],
+["Personal information manager (PIM)","Includes an appointment calendar, address book, and notepad","A"],
+["Project management software","Plans, schedules, tracks, and analyzes the events, resources, and costs of a project","A"],
+["Accounting software","Helps companies record and report their financial transactions","A"],
+["Document management software","Shares, distributes, and searches documents by converting them to a format any user can view","A"],
+["Web page authoring software","Helps users of all skill levels create Web pages with multimedia and interactive content","A"],
+["Web application","A Web site that lets you access and use software from any Internet-connected device","A"],
+["Online Help","The electronic equivalent of a user manual","A"],
+["Web-based Help","Provides updates and more comprehensive resources for technical software issues","A"],
+["Web-based training","A type of CBT that uses Internet technology; application software on the Web","A"],
+["Distance learning (DL)","Education delivered at one location while the learning takes place at other locations","A"],
+["System software","Programs that control or maintain the operations of the computer and its devices","O"],
+["Operating system (OS)","A set of programs that work together to coordinate all activities among hardware resources","O"],
+["Booting","The process of starting or restarting a computer","O"],
+["Cold boot","Turning on a computer that has been powered off completely","O"],
+["Warm boot","Using the operating system to restart a computer","O"],
+["Boot drive","The drive from which your computer starts","O"],
+["Recovery disk","Contains a few system files that will start the computer","O"],
+["Sleep mode","Saves open documents and programs to RAM, then enters a low-power state","O"],
+["Hibernate","Saves open documents and programs to the hard disk before removing power","O"],
+["User interface","Controls how you enter data and instructions and how information appears on screen","O"],
+["Graphical user interface (GUI)","You interact with menus and visual images","O"],
+["Command-line interface","You use the keyboard to type data and instructions","O"],
+["Virtual memory","A portion of a storage medium functioning as additional RAM","O"],
+["Task scheduling","The OS determines the order in which tasks are processed","O"],
+["Driver","A small program that tells the OS how to communicate with a specific device","O"],
+["Plug and Play","Automatically configures new devices as you install them","O"],
+["Performance monitor","Assesses and reports information about computer resources and devices","O"],
+["Network administrator","Uses the server OS to add/remove users and devices, install software, and administer security","O"],
+["Server operating system","Organizes and coordinates how multiple users access and share network resources","O"],
+["Stand-alone operating system","A complete OS that works on a desktop, notebook, or mobile computing device","O"],
+["Embedded operating system","Resides on a ROM chip in a mobile or consumer electronic device","O"],
+["UNIX","A multitasking operating system developed in the early 1970s","O"],
+["Linux","An open-source, popular, multitasking UNIX-type operating system","O"],
+["Utility program","System software that lets a user perform maintenance-type tasks","U"],
+["File manager","Displays files, organizes folders, copies/renames/deletes/moves/sorts files, creates shortcuts","U"],
+["Search utility","Locates a file on your computer based on criteria you specify","U"],
+["Image viewer","Lets you display, copy, and print the contents of a graphics file","U"],
+["Uninstaller","Removes a program and any associated entries in the system files","U"],
+["Disk cleanup","Searches for and removes unnecessary files","U"],
+["Disk defragmenter","Reorganizes files and unused space on a hard disk so data is accessed faster","U"],
+["Backup utility","Copies files to another storage medium","U"],
+["Restore utility","Reverses a backup and returns files to their original form","U"],
+["Personal firewall","Detects and protects a personal computer from unauthorized intrusions","U"],
+["Screen saver","Shows a moving image or blank screen after a period of no activity","U"],
+["Virus","A potentially damaging program that affects a computer negatively","U"],
+["Worm","Copies itself repeatedly in memory or over a network","U"],
+["Trojan horse","Hides within or looks like a legitimate program","U"],
+["Antivirus program","Protects a computer against viruses","U"],
+["Spyware","Placed on a computer without the user’s knowledge; secretly collects information","U"],
+["Adware","Displays an online advertisement in a banner or pop-up window","U"],
+["File compression utility","Shrinks the size of files (zipped files); lossy or lossless","U"],
+["Media player","Lets you view images and animation, listen to audio, and watch video","U"],
+["Disc burning software","Writes text, graphics, audio, and video files on a recordable or rewritable disc","U"],
+["PC maintenance utility","Fixes OS problems, repairs disk problems, and can improve performance","U"]
+];
+const P=(g,s)=>s.trim().split("\n").map(l=>[...l.split("|"),g]);
+D.push(...P("I",`Information system (IS)|A collection of hardware, software, data, procedures, and people used to collect, process, and distribute information
+Types of information systems|Transaction processing, management information, decision support, and executive information systems
+Six CBIS elements|Hardware, software, data, procedures, people, and communication
+Hardware (CBIS)|The computers and all peripherals: servers, routers, monitors, printers, storage
+Software (CBIS)|Tells the hardware how to function; gathers, organizes, and manipulates data
+Data (CBIS)|The information part of an IS; software cannot function without it
+Procedures (CBIS)|Rules and instructions for how things are done, often in user manuals
+People (CBIS)|The most overlooked and most important element; they decide success or failure
+Communication (CBIS)|Components that let one computer talk to another (hardware controlled by software)
+Table|A list of related information in columns and rows
+Record|Each row in a table
+Field|Each column in a table; a category of data
+Data value|One item of data, such as a phone number in the phone book
+Query|Database object that extracts or shows information from one or more tables or queries
+Form|Database object used to enter, edit, or display data from a table or query
+Report|Database object that summarizes information from a table or query for printing
+Macro (database)|Creates an action or set of actions to automate a task
+Primary key|A field that uniquely identifies every row in a table
+Relationship (database)|When one table has a foreign key that references the primary key of another
+One-to-one relationship|A record in the primary table has only one related record in the related table
+One-to-many relationship|One record relates to many records in the related table (one customer, many accounts)
+Many-to-many relationship|Records on both sides relate to many on the other (students and classes)
+Data redundancy|Duplicate information in different files; a drawback of file systems
+Atomicity of updates|An update must fully complete or not happen at all (e.g. a fund transfer)
+Concurrent access problem|Two users reading and updating the same balance at once can cause inconsistencies`));
+D.push(...P("N",`Computer network|Linked devices that can communicate and share resources
+Network topology|The arrangement of nodes and connecting lines in a network
+Bus topology|Every device connects to a single cable; data travels in one direction
+Ring topology|Each device connects to exactly two neighbors, forming a ring
+Star topology|All devices connect to a central hub
+Mesh topology|Every device connects to other devices through its own channel
+Hybrid topology|Two or more topologies combined; scalable and reliable but costly
+Internet|A worldwide network of networks
+ARPANET|Origin of the Internet (1969); let scientists share information and survive disasters
+Access provider|A business that gives individuals and organizations Internet access, free or for a fee
+IP address|A number that uniquely identifies each device connected to the Internet
+Domain name|The text version of an IP address
+DNS server|Translates a domain name into its IP address
+World Wide Web|A worldwide collection of electronic documents (Web pages)
+Web server|A computer that delivers requested Web pages to your computer
+Web 1.0|The read-only Web: you can only look for information
+Web 2.0|Web sites that let users interact
+Web browser|Lets users access Web pages and Web 2.0 programs
+URL|A Web page’s unique address
+Tabbed browsing|Opening multiple Web pages in a single browser window
+Search engine|Finds Web pages related to a specific topic
+Subject directory|Classifies Web pages in an organized set of categories
+Multimedia|Any application that combines text with graphics, animation, audio, video, or VR
+Thumbnail|A small version of a larger graphic
+Streaming|Transferring data in a continuous and even flow
+Virtual reality (VR)|Computers simulating a real or imagined 3D environment
+Plug-in|A program that extends the capability of a Web browser
+Web publishing|The development and maintenance of Web pages
+Mailing list|A group of e-mail addresses given a single name
+Instant messaging (IM)|A real-time Internet communications service
+Chat room|A location on an Internet server that lets users chat
+VoIP|Voice over IP: speaking to others over the Internet (Internet telephony)
+Newsgroup|An online area for written discussions on a subject; needs a newsreader
+FTP|Internet standard for uploading and downloading files
+Netiquette|The code of acceptable Internet behavior`));
+D.push(...P("X",`Computer security|Protecting systems and information from harm, theft, and unauthorized use
+Computer ethics|Moral principles that regulate the use of computers
+Phishing|An official-looking e-mail scam that tries to get personal and financial information
+Pharming|Redirects a legitimate Web site visitor to a different IP address
+Malware|Software used to damage users: Trojans, viruses, and spyware
+Payload|The destructive event delivered when you open an infected file or run an infected program
+Virus signature|A specific pattern of virus code (also called a virus definition)
+Quarantine|Antivirus keeps infected files it cannot remove in a separate disk area
+Denial of service (DoS) attack|An assault that disrupts access to an Internet service such as the Web or e-mail
+Back door|Instructions in a program that let users bypass security controls
+Spoofing|Makes a transmission appear legitimate; IP spoofing fools a network into trusting an IP address
+Firewall|Hardware and/or software that prevents unauthorized intrusion
+Intrusion detection software|Analyzes network traffic, assesses vulnerabilities, and identifies intrusions
+Access control|Defines who can access a computer and what actions they can take
+Audit trail|Records access attempts
+Possessed object|An item you must carry to gain access, often used with a PIN
+Biometric device|Authenticates identity by fingerprint, hand geometry, voice, signature, or iris
+Software piracy|Illegal duplication of copyrighted software
+License agreement|The right to use software
+Product activation|Enter a product ID online or by phone and receive a unique installation ID
+Encryption|Converting plaintext (readable) into ciphertext (unreadable)
+Digital certificate|A notice that guarantees a Web site is legitimate
+Certificate authority (CA)|Authorized company that issues and verifies digital certificates
+Secure Sockets Layer (SSL)|Encrypts all data between client and server; https addresses are secure
+Overvoltage (power surge)|A significant increase in electrical power
+Undervoltage|A drop in the electrical supply
+Surge protector|Protects equipment from electrical power disturbances
+Uninterruptible power supply (UPS)|A surge protector that provides power during a power loss
+Full backup|Copies all files in the computer
+Selective backup|You choose which files to back up
+Three-generation backup|Preserves three copies of important files
+Information privacy|The right of individuals and companies to deny or restrict collection and use of information about them
+Electronic profile|Data collected when you fill out a Web form; merchants may sell it
+Cookie|A small file on your computer with data about you and your browsing habits
+Spam|Unsolicited e-mail sent to many recipients
+Content filtering|Restricting access to certain material
+Computer forensics|Discovery, collection, and analysis of evidence on computers and networks
+IT code of conduct|A written guideline that helps decide whether a computer action is ethical
+Intellectual property rights|Rights creators are entitled to for their work
+Computer vision syndrome (CVS)|Eye and vision problems
+Carpal tunnel syndrome (CTS)|Inflammation of the nerve connecting the forearm to the palm
+Tendonitis|Inflammation of a tendon due to repeated motion
+Computer addiction|When the computer consumes your entire social life
+Ergonomics|Applied science for comfort, efficiency, and safety in the workplace
+Green computing|Reducing electricity and environmental waste while using computers`));
+const MODS={5:"Software",6:"Databases",7:"Networks & Web",8:"Security & ethics"},GM={A:5,O:5,U:5,I:6,N:7,X:8};
+const S=[
+{m:5,n:"App categories",c:["Business","Graphics & Multimedia","Home / Personal / Educational","Communications"],i:[["Spreadsheet",0],["Accounting",0],["Project management",0],["Database",0],["Note taking",0],["AutoCAD",1],["Photoshop",1],["Dreamweaver",1],["Video editing (professional)",1],["Multimedia authoring",1],["Tax preparation",2],["Personal finance",2],["Travel and mapping",2],["Entertainment",2],["Home design / landscaping",2],["Legal",2],["Web browser",3],["E-mail",3],["Blogging",3],["FTP",3],["Video conferencing",3],["Chat room",3]]},
+{m:5,n:"OS types",c:["Stand-alone","Server","Embedded"],i:[["DOS",0],["Windows 7",0],["Mac OS X",0],["Windows 10",0],["Windows Server 2019",1],["Solaris",1],["NetWare",1],["Windows 2000 Server",1],["Palm OS",2],["iPhone OS",2],["BlackBerry",2],["Google Android",2],["Symbian OS",2],["Windows Embedded CE",2]]},
+{m:5,n:"Boot & power states",c:["Cold boot","Warm boot","Sleep","Hibernate"],i:[["Power on a computer that was fully off",0],["Press the power button after a shutdown",0],["Restart using the operating system",1],["Choose Restart from the menu",1],["Saves work to RAM, low-power state",2],["Resumes quickly because data stays in RAM",2],["Saves work to the hard disk, then removes power",3],["Uses no power while off, slower to resume",3]]},
+{m:6,n:"Database relationships",c:["One-to-one","One-to-many","Many-to-many"],i:[["One customer, many accounts",1],["A music CD has many songs",1],["One person, many phone numbers",1],["A student takes many classes; each class has many students",2],["An order has many products; a product is on many orders",2],["A supplier carries many products; a product has many suppliers",2],["Isolating part of a table for security",0],["Splitting a table with many fields",0]]},
+{m:6,n:"Database objects",c:["Query","Form","Report","Macro"],i:[["Show all customers who ordered a product",0],["Record source can be tables or other queries",0],["Enter, edit, or display data",1],["Show users only a few fields",1],["Summarize data for printing",2],["Analyze the results of queries",2],["Automate a series of actions",3],["Embedded in forms and reports",3]]},
+{m:6,n:"Table parts",c:["Table","Record","Field","Data value"],i:[["A list of related information in columns and rows",0],["A contacts list holding names and phones",0],["Each row",1],["One customer's complete entry",1],["Each column",2],["A category such as Last Name",2],["The phone number 555-0142",3],["The name Maria",3]]},
+{m:6,n:"File system problems",c:["Data redundancy","Atomicity of updates","Concurrent access"],i:[["The same address stored in two files",0],["Duplicate information in different files",0],["A transfer fails halfway and money vanishes",1],["An update must fully complete or not happen",1],["Two users update one balance at once",2],["A balance becomes inconsistent from simultaneous access",2]]},
+{m:7,n:"Network topologies",c:["Bus","Ring","Star","Mesh"],i:[["Every device connects to a single cable",0],["Data travels in one direction along one cable",0],["Each device connects to exactly two neighbors",1],["Devices form a closed loop",1],["All devices connect to a central hub",2],["If the hub fails, the network goes down",2],["Every device connects through its own channel",3],["Many redundant paths: reliable but costly",3]]},
+{m:7,n:"Web addresses",c:["IP address","Domain name","URL"],i:[["142.250.4.100",0],["192.168.1.1",0],["10.0.0.25",0],["wikipedia.org",1],["example.com",1],["www.cnn.com",1],["https://www.example.com/index.html",2],["http://www.wikipedia.org/wiki/Linux",2]]},
+{m:7,n:"Web 1.0 or 2.0?",c:["Web 1.0","Web 2.0"],i:[["Read-only pages",0],["You can only look for information",0],["Static home pages",0],["Social networking sites",1],["Blogs and wikis",1],["Users interact and share content",1],["Web applications",1]]},
+{m:8,n:"Threat or defense?",c:["Threat","Defense"],i:[["Virus",0],["Worm",0],["Trojan horse",0],["Spyware",0],["Adware",0],["Antivirus program",1],["Personal firewall",1],["Spyware remover",1],["Pop-up blocker",1],["Phishing filter",1],["Anti-spam program",1]]},
+{m:8,n:"Authentication",c:["Something you know","Something you carry","Something you are"],i:[["Password",0],["PIN",0],["User name and password",0],["Possessed object",1],["Badge or key card",1],["Fingerprint",2],["Iris scan",2],["Hand geometry",2],["Voice recognition",2]]},
+{m:8,n:"Health problems",c:["Computer vision syndrome","Carpal tunnel syndrome","Tendonitis","Computer addiction"],i:[["Eye and vision problems",0],["Eyestrain from the screen",0],["Nerve inflammation between forearm and palm",1],["Tendon inflammation from repeated motion",2],["Computer consumes your entire social life",3]]},
+{m:8,n:"Backup types",c:["Full","Selective","Three-generation"],i:[["Copies all files in the computer",0],["Everything on the computer is copied",0],["You choose which files to back up",1],["Saves only the files you pick",1],["Preserves three copies of important files",2],["Grandparent, parent, and child copies",2]]},
+{m:8,n:"Power problem or protection?",c:["Problem","Protection"],i:[["Overvoltage (power surge)",0],["Undervoltage",0],["A complete loss of power",0],["Surge protector",1],["Uninterruptible power supply (UPS)",1]]}];
+const B=["The power supply sends a signal to the components in the system unit","The processor finds the ROM chip(s) containing the BIOS","The BIOS performs the POST (power-on self test)","POST results are compared with data in the CMOS chip","The BIOS looks for system files (USB, optical disc, or drive C)","System files and the kernel load into RAM from storage","The OS loads configuration info, starts background processes, and shows the desktop"];
+const SEQ=[{n:"How a PC boots",s:B,t:"Power → ROM/BIOS → POST → CMOS → find system files → load kernel into RAM → desktop."},{n:"Web publishing",s:["Plan a Web site","Analyze and design a Web site","Create a Web site","Deploy a Web site","Maintain a Web site"],t:"Plan → Analyze/design → Create → Deploy → Maintain."},{n:"Internet history",s:["1969: ARPANET becomes functional","1984: ARPANET has more than 1,000 hosts","1986: NSF connects NSFnet to ARPANET; it becomes known as the Internet","1995: NSFNet ends and resumes status as a research network","1996: Internet2 begins"],t:"1969 ARPANET → 1984 1,000 hosts → 1986 NSFnet → 1995 NSFNet ends → 1996 Internet2."},{n:"Encrypt a file in Windows",s:["Locate the folder or file","Right-click it and select Properties","On the General tab, click Advanced","Move to Compress or Encrypt attributes","Check Encrypt content to secure data"],t:"Locate → Properties → General/Advanced → Encrypt attributes → check the box."},{n:"Developing a document",s:["Create the document","Edit the document","Format the document"],t:"Create → Edit → Format."}];
+const $=s=>document.querySelector(s),app=$("#app");
+const sh=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+let sv={xp:0,best:{},bs:0};try{Object.assign(sv,JSON.parse(localStorage.getItem("sq")||"{}"))}catch(e){}
+const persist=()=>{try{localStorage.setItem("sq",JSON.stringify(sv))}catch(e){}};
+let flt="all",T=0,kh=null;
+document.onkeydown=e=>kh&&kh(e);
+const pool=()=>flt=="all"?D:D.filter(d=>GM[d[2]]==flt);
+const stars=p=>{const n=p>=.9?3:p>=.7?2:p>=.4?1:0;return"★".repeat(n)+"☆".repeat(3-n)};
+function tween(el,to,d=800){const f=+el.dataset.v||0;el.dataset.v=to;if(RM||f==to){el.textContent=to;return}const t0=performance.now();(function s(t){const k=Math.min(1,(t-t0)/d);el.textContent=Math.round(f+(to-f)*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(s)})(t0)}
+function view(h){clearTimeout(T);kh=null;app.innerHTML=h;scrollTo(0,0)}
+function counters(){app.querySelectorAll("[data-n]").forEach(e=>tween(e,+e.dataset.n,1000))}
+$("#logo").onclick=()=>home();$("#logo").onkeydown=e=>{if(e.key=="Enter")home()};
+
+function home(){
+const ch=[["all","All modules"],[5,"M5 Software"],[6,"M6 Databases"],[7,"M7 Networks"],[8,"M8 Security"]];
+view(`<h1>Modules 5 to 8 exam prep.</h1>
+<div class="stats"><button class="st" id="play"><b>Play</b><span>random game</span></button><button class="st" id="modt"><b>Module</b><span>${flt=="all"?"all modules":"M"+flt+" "+MODS[flt]}</span></button><div class="st"><b data-n="${sv.bs||0}">0</b><span>best streak</span></div></div>
+<div class="chips">${ch.map(c=>`<button data-f="${c[0]}" class="${flt==c[0]?"on":""}">${c[1]}</button>`).join("")}</div>
+<div class="modes">${GAMES.map((x,k)=>`<button class="mode" data-g="${k}" style="--mc:${x[3]}"><b>${x[0]}</b><span>${x[1]}</span></button>`).join("")}</div>`);
+app.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{flt=b.dataset.f=="all"?"all":+b.dataset.f;home()});
+app.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>GAMES[b.dataset.g][2]());
+$("#play").onclick=()=>sh(GAMES)[0][2]();
+$("#modt").onclick=()=>{const o=["all",5,6,7,8];flt=o[(o.indexOf(flt)+1)%5];home()};counters()}
+function quiz(){const qs=sh(pool()).slice(0,10);let i=0,lives=3,st=0,ok=0,miss=[],earn=0;
+function q(){if(i>=qs.length||lives<=0)return end();const c=qs[i],rev=i%2==1;
+const o=sh([c,...sh(D.filter(d=>d!==c&&d[2]==c[2])).slice(0,3)]);
+view(`<div class="bar"><span>Q <b>${i+1}</b>/${qs.length}</span><span class="lives">${"♥".repeat(lives)+"♡".repeat(3-lives)}</span><span>streak <b>${st}</b></span></div><div class="tm"><i id="tb"></i></div>
+<div class="card q"><p class="mu">${rev?"Which definition matches this term?":"Which term matches this definition?"}</p><h2>${rev?c[0]:c[1]}</h2></div>
+${o.map((x,k)=>`<button class="opt" data-k="${k}"><kbd>${k+1}</kbd>${rev?x[1]:x[0]}</button>`).join("")}<div id="fb"></div>`);
+let done=false;const t0=Date.now(),tb=$("#tb");
+requestAnimationFrame(()=>requestAnimationFrame(()=>{tb.style.transition="width 15s linear";tb.style.width="0"}));
+const pick=k=>{if(done)return;done=true;clearTimeout(T);tb.style.transition="none";tb.style.width=getComputedStyle(tb).width;
+const good=k>=0&&o[k]===c,left=Math.max(0,15-(Date.now()-t0)/1000),bs=app.querySelectorAll(".opt");
+bs.forEach((x,j)=>{x.disabled=true;if(o[j]===c)x.classList.add("ok")});
+if(good){st++;ok++;if(st>(sv.bs||0)){sv.bs=st;persist()}}else{if(k>=0)bs[k].classList.add("no","shake");lives--;st=0;miss.push(c)}
+$("#fb").innerHTML=`<div class="card ${good?"gd":"bd"}"><b>${good?"Correct.":k<0?"Time's up.":"Not quite."}</b> ${c[0]}: ${c[1]}</div><button class="go" id="nx">Next <kbd>Enter</kbd></button>`;
+$("#nx").onclick=()=>{i++;q()};$("#nx").focus()};
+app.querySelectorAll(".opt").forEach((b,k)=>b.onclick=()=>pick(k));
+T=setTimeout(()=>pick(-1),15000);
+kh=e=>{if(/^[1-4]$/.test(e.key))pick(+e.key-1);else if(e.key=="Enter"&&done&&document.activeElement.id!="nx")$("#nx").click()}}
+function end(){const win=lives>0,rank=ok>=9?"Root access":ok>=7?"Sysadmin":ok>=5?"Power user":"Newbie";
+view(`<div class="card ctr"><p class="mu">${win?"Round complete":"Out of lives"} · rank: ${rank}</p><div class="big"><span data-n="${ok}">0</span>/${qs.length}</div></div>
+${miss.length?`<div class="card"><b>Review these</b><ul>${miss.map(m=>`<li><b>${m[0]}</b>: ${m[1]}</li>`).join("")}</ul></div>`:""}
+<button class="go" id="a1">Play again</button><button id="a2">Back to menu</button>`);
+$("#a1").onclick=quiz;$("#a2").onclick=home;counters()}
+q()}
+
+function cards(){let dk=sh(pool()),n=dk.length,done=0;
+function show(){if(!dk.length){view(`<div class="card ctr"><div class="big">100%</div><h2>Deck cleared</h2><p class="mu">${n} cards mastered</p></div><button class="go" id="a1">Go again</button><button id="a2">Back to menu</button>`);$("#a1").onclick=cards;$("#a2").onclick=home;return}
+const c=dk[0];let fl=false;
+view(`<div class="bar"><span><b>${done}</b>/${n} mastered</span><span>${dk.length} left</span></div><div class="tm"><i style="width:${done/n*100}%"></i></div>
+<div class="fc" id="cd" tabindex="0"><div class="in"><div class="face"><p class="mu">tap or press space to flip</p><h2>${c[0]}</h2></div><div class="face back"><p class="mu">${c[0]}</p><h3>${c[1]}</h3></div></div></div>
+<div class="row" id="rw" style="visibility:hidden"><button id="ag"><kbd>1</kbd>Again</button><button class="go" id="gt"><kbd>2</kbd>Got it</button></div>`);
+const flip=()=>{fl=!fl;$("#cd").classList.toggle("fp",fl);$("#rw").style.visibility=fl?"visible":"hidden"},
+gt=()=>{dk.shift();done++;show()},ag=()=>{dk.push(dk.shift());show()};
+$("#cd").onclick=flip;$("#gt").onclick=gt;$("#ag").onclick=ag;
+kh=e=>{const b=document.activeElement.tagName=="BUTTON";if(e.key==" "||(e.key=="Enter"&&!b)){e.preventDefault();if(!b)flip()}else if(fl&&(e.key=="1"||e.key=="ArrowLeft"))ag();else if(fl&&(e.key=="2"||e.key=="ArrowRight"))gt()}}
+show()}
+
+function sortHome(){view(`<h2>Sort It</h2><p class="mu">Choose a module level. Earn stars for accuracy.</p>`+[5,6,7,8].map(m=>{const rs=S.filter(r=>r.m==m),n=rs.reduce((a,r)=>a+r.i.length,0);
+return`<button class="mod" data-m="${m}"><span class="mn">M${m}</span><span><b>${MODS[m]}</b><span class="mu">${rs.length} rounds · ${n} items</span></span><span class="stars">${stars(sv.best["m"+m]||0)}</span></button>`}).join("")+`<button id="bk">Back</button>`);
+app.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>sortMod(+b.dataset.m));$("#bk").onclick=home}
+function sortMod(m){const rs=S.filter(r=>r.m==m);
+view(`<p class="mu">Module ${m}</p><h2>${MODS[m]}</h2><button class="go" id="all">Full level: mixed 12 items</button><p class="mu">Or practice one round</p>`+rs.map((r,k)=>`<button data-k="${k}"><span><b>${r.n}</b><br><span class="mu">${r.i.length} items</span></span><span class="stars">${stars(sv.best[m+r.n]||0)}</span></button>`).join("")+`<button id="bk">Back to levels</button>`);
+const mk=(key,list)=>()=>sortG(key,sh(list).map(x=>x),sortMod,m);
+$("#all").onclick=()=>sortG("m"+m,sh(rs.flatMap(r=>r.i.map(x=>({t:x[0],a:x[1],r})))).slice(0,12),()=>sortMod(m),m);
+app.querySelectorAll("[data-k]").forEach(b=>{const r=rs[b.dataset.k];b.onclick=()=>sortG(m+r.n,sh(r.i.map(x=>({t:x[0],a:x[1],r}))),()=>sortMod(m),m)});
+$("#bk").onclick=sortHome}
+function sortG(key,it,back,m){let i=0,sc=0,st=0,miss=[],earn=0;
+function r(){if(i>=it.length)return fin();const x=it[i];
+view(`<div class="bar"><span><b>${i+1}</b>/${it.length}</span><span class="tag">${x.r.n}</span><span>combo <b>${st}</b></span></div><div class="tm"><i style="width:${i/it.length*100}%"></i></div>
+<div class="card q"><p class="mu">Where does this belong?</p><h2>${x.t}</h2></div>${x.r.c.map((c,k)=>`<button class="opt"><kbd>${k+1}</kbd>${c}</button>`).join("")}<div id="fb"></div>`);
+let done=false;
+const pick=k=>{if(done)return;done=true;const bs=app.querySelectorAll(".opt"),good=k==x.a;bs.forEach((y,j)=>{y.disabled=true;if(j==x.a)y.classList.add("ok")});
+if(good){sc++;st++;}else{bs[k].classList.add("no","shake");st=0;miss.push(x)}
+$("#fb").innerHTML=(good?"":`<div class="card bd">Answer: <b>${x.r.c[x.a]}</b></div>`)+`<button class="go" id="nx">${i+1<it.length?"Next":"Finish"}</button>`;$("#nx").onclick=()=>{i++;r()};$("#nx").focus()};
+app.querySelectorAll(".opt").forEach((b,k)=>b.onclick=()=>pick(k));
+kh=e=>{if(/^[1-9]$/.test(e.key)&&+e.key<=x.r.c.length)pick(+e.key-1)}}
+function fin(){const p=sc/it.length;sv.best[key]=Math.max(sv.best[key]||0,p);persist();
+view(`<div class="card ctr"><p class="mu">Level complete</p><div class="big"><span data-n="${sc}">0</span>/${it.length}</div><p class="stars" style="font-size:26px">${stars(p)}</p></div>
+${miss.length?`<div class="card"><b>Review these</b><ul>${miss.map(x=>`<li><b>${x.t}</b>: ${x.r.c[x.a]}</li>`).join("")}</ul></div>`:""}
+<button class="go" id="a1">Play again</button><button id="a2">Back to level</button>`);
+$("#a1").onclick=()=>sortG(key,sh(it),back,m);$("#a2").onclick=back;counters()}
+r()}
+
+function bootMenu(){view(`<h2>Order It</h2><p class="mu">Tap the steps in the right order.</p>`+SEQ.map((d,k)=>`<button data-k="${k}"><b>${d.n}</b><span class="stars">${stars(sv.best["o"+d.n]||0)}</span></button>`).join("")+`<button id="bk">Back</button>`);
+app.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>boot(SEQ[b.dataset.k]));$("#bk").onclick=home}
+function boot(d){const B=d.s;let order=sh(B.map((t,i)=>i)),nxt=0,bad=0;
+function r(){view(`<h2>${d.n}</h2><div class="bar"><span>placed <b>${nxt}</b>/${B.length}</span><span>mistakes <b>${bad}</b></span></div><div class="tm"><i style="width:${nxt/B.length*100}%"></i></div>`+
+order.map(i=>`<button class="st ${i<nxt?"ok":""}" data-i="${i}" ${i<nxt?"disabled":""}>${i<nxt?`<kbd>${i+1}</kbd>`:""}${B[i]}</button>`).join("")+
+(nxt==B.length?`<div class="card gd"><b>Memory trick</b><p>${d.t}</p></div><button class="go" id="a1">Shuffle again</button><button id="a2">Back to menu</button>`:""));
+app.querySelectorAll(".st:not([disabled])").forEach(b=>b.onclick=()=>{if(+b.dataset.i==nxt){nxt++;if(nxt==B.length){const p=Math.max(0,1-bad/B.length);sv.best["o"+d.n]=Math.max(sv.best["o"+d.n]||0,p);persist()}r()}else{bad++;b.classList.add("no","shake");setTimeout(r,450)}});
+if(nxt==B.length){$("#a1").onclick=()=>boot(d);$("#a2").onclick=bootMenu}}
+r()}
+
+
+const GAMES=[["Quiz Blitz","10 questions, 3 lives, 15 seconds each.",()=>quiz(),"var(--c)"],["Flashcards","Flip, then mark Got it or Again. Missed cards come back.",()=>cards(),"var(--v)"],["Sort It","Choose a module level, then sort items into categories.",()=>sortHome(),"var(--ok)"],["Order It","Put sequences in order: PC boot, Web publishing, Internet history.",()=>bootMenu(),"#ffc247"],["Match Rush","Pair 5 terms with their definitions, 3 rounds. Fewer mistakes, more stars.",()=>match(),"#ff8a3d"],["Speed True/False","60 seconds. Does this definition belong to this term?",()=>tf(),"var(--no)"],["Decrypt","Guess the hidden term letter by letter before you run out of lives.",()=>decrypt(),"#58a6ff"]];
+
+function match(){let r=0,bad=0;const t0=Date.now(),R3=3;
+function rd(){if(r>=R3)return mend();const c=sh(pool()).slice(0,5),L=sh(c),R=sh(c);let left=5,a=null;
+view(`<div class="bar"><span>round <b>${r+1}</b>/${R3}</span><span>mistakes <b id="bd">${bad}</b></span></div><div class="tm"><i style="width:${r/R3*100}%"></i></div><p class="mu">Tap a term, then its definition.</p>
+<div class="mg"><div>${L.map((x,k)=>`<button class="mt" data-s="L" data-k="${k}">${x[0]}</button>`).join("")}</div><div>${R.map((x,k)=>`<button class="mt" data-s="R" data-k="${k}">${x[1]}</button>`).join("")}</div></div>`);
+app.querySelectorAll(".mt").forEach(b=>b.onclick=()=>{
+if(a&&a.dataset.s==b.dataset.s){a.classList.remove("sel");a=b;b.classList.add("sel");return}
+if(!a){a=b;b.classList.add("sel");return}
+const p=a;a=null;p.classList.remove("sel");const l=p.dataset.s=="L"?p:b,rr=p.dataset.s=="L"?b:p;
+if(L[+l.dataset.k]===R[+rr.dataset.k]){[l,rr].forEach(x=>{x.classList.add("ok");x.disabled=true});if(--left==0){r++;T=setTimeout(rd,500)}}
+else{bad++;$("#bd").textContent=bad;[p,b].forEach(x=>x.classList.add("no","shake"));setTimeout(()=>[p,b].forEach(x=>x.classList.remove("no","shake")),400)}})}
+function mend(){const s=Math.round((Date.now()-t0)/1000),p=Math.max(0,1-bad/10);sv.best.match=Math.max(sv.best.match||0,p);persist();
+view(`<div class="card ctr"><p class="mu">All rounds cleared</p><div class="big">${s}s</div><p class="stars" style="font-size:26px">${stars(p)}</p><p class="mu">${bad} mistake${bad==1?"":"s"}</p></div><button class="go" id="a1">Play again</button><button id="a2">Back to menu</button>`);$("#a1").onclick=match;$("#a2").onclick=home}
+rd()}
+
+function tf(){const pl=sh(pool());let n=0,ok=0,no=0,left=60,cur;
+view(`<div class="bar"><span>time <b id="tt">60</b></span><span>correct <b id="tc">0</b></span><span>wrong <b id="tw">0</b></span></div><div class="tm"><i id="tb" style="width:100%"></i></div><div id="qa"></div><div id="fb" class="mu"></div>`);
+const nx=()=>{const c=pl[n++%pl.length],t=Math.random()<.5,o=t?c:sh(D.filter(d=>d!==c&&d[2]==c[2]))[0];cur={c,t};
+$("#qa").innerHTML=`<div class="card q"><h2>${c[0]}</h2><p>${o[1]}</p></div><div class="row"><button id="bt"><kbd>T</kbd>True</button><button id="bf"><kbd>F</kbd>False</button></div>`;$("#bt").onclick=()=>an(true);$("#bf").onclick=()=>an(false)};
+const an=v=>{const g=v===cur.t;if(g)ok++;else no++;$("#tc").textContent=ok;$("#tw").textContent=no;$("#fb").innerHTML=g?"Correct":`Wrong: <b>${cur.c[0]}</b> is ${cur.c[1]}`;nx()};
+nx();T=setInterval(()=>{left--;$("#tt").textContent=left;$("#tb").style.width=left/60*100+"%";if(left<=0){clearInterval(T);fin()}},1000);
+kh=e=>{const k=e.key.toLowerCase();if(k=="t"||e.key=="ArrowLeft")an(true);else if(k=="f"||e.key=="ArrowRight")an(false)};
+function fin(){kh=null;const tot=ok+no;sv.best.tf=Math.max(sv.best.tf||0,ok);persist();
+view(`<div class="card ctr"><p class="mu">Time's up</p><div class="big"><span data-n="${ok}">0</span></div><p class="mu">correct · ${tot?Math.round(ok/tot*100):0}% accuracy · best ${sv.best.tf}</p></div><button class="go" id="a1">Play again</button><button id="a2">Back to menu</button>`);$("#a1").onclick=tf;$("#a2").onclick=home;counters()}}
+
+function decrypt(){const ws=sh(pool().filter(d=>d[0].replace(/[^a-z]/gi,"").length>=4&&d[0].length<=26)).slice(0,5);let i=0,sc=0;
+function w(){if(i>=ws.length)return dend();const c=ws[i],W=c[0].toUpperCase(),g=new Set(),L=[...new Set(W.replace(/[^A-Z]/g,""))];let lives=6,done=false;
+const show=()=>[...W].map(ch=>/[A-Z]/.test(ch)?(g.has(ch)||done?ch:"_"):ch==" "?"\u00a0\u00a0":ch).join(" ");
+view(`<div class="bar"><span>word <b>${i+1}</b>/${ws.length}</span><span class="lives" id="hl">${"♥".repeat(6)}</span><span>solved <b>${sc}</b></span></div><div class="card q"><p class="mu">Decrypt the term for this definition</p><h3>${c[1]}</h3></div><div class="word" id="wd">${show()}</div><div class="kb">${[..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"].map(k=>`<button data-k="${k}">${k}</button>`).join("")}</div><div id="fb"></div>`);
+const guess=k=>{if(done||g.has(k))return;g.add(k);const b=app.querySelector(`[data-k="${k}"]`);b.disabled=true;
+if(W.includes(k))b.classList.add("ok");else{b.classList.add("no");lives--}
+$("#hl").textContent="♥".repeat(lives)+"♡".repeat(6-lives);
+const win=L.every(x=>g.has(x));
+if(win||lives<=0){done=true;if(win)sc++;$("#fb").innerHTML=`<div class="card ${win?"gd":"bd"}"><b>${win?"Decrypted.":"Access denied."}</b> ${c[0]}</div><button class="go" id="nx">${i+1<ws.length?"Next":"Finish"}</button>`;$("#nx").onclick=()=>{i++;w()};$("#nx").focus()}
+$("#wd").textContent=show()};
+app.querySelectorAll(".kb button").forEach(b=>b.onclick=()=>guess(b.dataset.k));
+kh=e=>{const k=e.key.toUpperCase();if(/^[A-Z]$/.test(k)&&!e.ctrlKey&&!e.metaKey&&!e.altKey)guess(k)}}
+function dend(){const p=sc/ws.length;sv.best.dec=Math.max(sv.best.dec||0,p);persist();
+view(`<div class="card ctr"><p class="mu">Run complete</p><div class="big"><span data-n="${sc}">0</span>/${ws.length}</div><p class="stars" style="font-size:26px">${stars(p)}</p></div><button class="go" id="a1">Play again</button><button id="a2">Back to menu</button>`);$("#a1").onclick=decrypt;$("#a2").onclick=home;counters()}
+w()}
+
+(function(){if(RM)return;const c=$("#rain"),x=c.getContext("2d");let w,h,y=[];const rs=()=>{w=c.width=innerWidth;h=c.height=innerHeight;y=Array.from({length:Math.ceil(w/22)},()=>Math.random()*h/22)};rs();addEventListener("resize",rs);
+setInterval(()=>{if(document.hidden)return;x.fillStyle="rgba(6,10,19,.14)";x.fillRect(0,0,w,h);x.fillStyle="#3ee6ff";x.font="14px monospace";y.forEach((v,i)=>{x.fillText(Math.random()<.5?0:1,i*22,v*22);y[i]=v*22>h&&Math.random()>.975?0:v+1})},70)})();
+home();
+</script></body></html>
